@@ -95,5 +95,15 @@ module Labrador
         path: @path        
       }
     end
+
+    # Compare url names allowing for spaces, special characters and varying casing
+    def self.url_name(name)
+      name.downcase!
+      name.gsub!(/'/, '')
+      name.gsub!(/[^A-Za-z0-9]+/, ' ')
+      name.strip!
+      name.gsub!(/\ +/, '-')
+      name
+    end
   end
 end

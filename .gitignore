@@ -17,3 +17,4 @@ config/secret_token.yml
 /tmp
 test/fixtures/sqlite.sqlite3
 config/initializers/auth.rb
+.powder

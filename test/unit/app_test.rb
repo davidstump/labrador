@@ -58,5 +58,11 @@ describe Labrador::App do
       assert app.to_json
     end
   end
+
+  describe '#url_name' do
+    it 'should reformat a string into valid URL form' do
+      assert_equal 'crazy-project-name', Labrador::App.url_name('Crazy Project Name')
+    end
+  end
 end
 
