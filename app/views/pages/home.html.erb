@@ -18,7 +18,13 @@
 <div id='find-progress' class="progress progress-striped active">
   <div class="bar"></div>
 </div>
-<div class="fixed-table-container">
+<div class="query-container" data-view="query">
+  <form>
+    <textarea id="code"></textarea>
+    <button data-action="run">Run Query &raquo;</button>
+  </form>
+</div>
+<div class="fixed-table-container" data-format="table">
   <table class="table table-condensed">
     <thead>
       <tr class="odd">

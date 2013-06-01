@@ -23,6 +23,15 @@ class DataController < ApplicationController
     }
   end
 
+  def query
+    items = current_adapter.database.query(params[:query])
+    render json: {
+      collection: params[:collection],
+      fields: current_adapter.database.fields_for(items),
+      items: items
+    }
+  end
+
   def create
     current_adapter.database.create(params[:collection], params[:data])
     render json: { success: true }

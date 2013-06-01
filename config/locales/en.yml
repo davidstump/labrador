@@ -5,6 +5,7 @@ en:
   database:
     structure: 'Structure'
     content: 'Content'
+    query: 'Query'
   adapters:
     unsupported_adapter: "Unsupported adapter '%{adapter}'"
     mongodb:

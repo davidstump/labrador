@@ -9,7 +9,10 @@ class @TableView extends Backbone.View
     @$tableContainer = @$el.parent(".fixed-table-container")
     @$theadRow = @$tableContainer.find("thead tr")
 
-    @model.on 'change:data', => @render(@model.get('data').fields, @model.get('data').items)
+    @model.on 'change:data', =>
+      unless @model.get('data') == undefined
+        @render(@model.get('data').fields, @model.get('data').items)
+
     @model.on 'before:send', => 
       @emptyBody()
       @showLoading(5)

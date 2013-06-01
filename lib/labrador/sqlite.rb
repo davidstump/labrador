@@ -19,6 +19,10 @@ module Labrador
         .sort
     end
 
+    def query(query)
+      session.execute(query).map(&.to_hash)
+    end
+
     def find(collection_name, options = {})
       order_by     = options[:order_by] || primary_key_for(collection_name)
       limit        = (options[:limit] || Sqlite.default_limit).to_i

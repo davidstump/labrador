@@ -45,6 +45,10 @@ module Labrador
       ").rows.flatten.sort
     end
 
+    def query(query)
+      parse_results(session.query(query))
+    end
+
     def find(collection_name, options = {})
       order_by     = options[:order_by] || primary_key_for(collection_name)
       limit        = (options[:limit] || Postgres.default_limit).to_i

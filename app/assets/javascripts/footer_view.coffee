@@ -18,6 +18,7 @@ class @FooterView extends Backbone.View
 
   bind: ->
     @model.on 'change:data', => 
+      return if app.get('context') is 'query'
       count = @model.get('data').items.length
       if count is 0
         @updateStatus(I18n.t("status.showing", count: count, results: @resultName(count)))

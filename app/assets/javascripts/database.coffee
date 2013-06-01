@@ -64,6 +64,20 @@ class @Database extends Backbone.Model
         callback?(error)
 
 
+  query: (collection, query, callback) ->
+    options = {}
+    @set(lastFind: {collection, options})
+    $.ajax
+      url: "/data/#{@get('adapter')}/query?query=#{query}&collection=#{collection}"
+      type: "GET"
+      success: (data) ->      
+        data.timestamp = (new Date()).valueOf() # Trigger 'change' if even data is the same
+        callback?(null, data)
+      error: (error) =>
+        @trigger('error', error)
+        callback?(error)
+
+
   getCurrentSchema: (callback) ->
     @schema(@collection(), callback)
 

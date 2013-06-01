@@ -38,6 +38,12 @@ module Labrador
       end
     end
 
+    def query(query)
+      results = []
+      session.query(query).each_hash{ |row| results << row }
+      results
+    end
+
     def find(collection_name, options = {})
       order_by     = options[:order_by] || primary_key_for(collection_name)
       limit        = (options[:limit] || Mysql.default_limit).to_i

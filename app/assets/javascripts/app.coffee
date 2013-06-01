@@ -13,12 +13,17 @@ class @App extends Backbone.Model
       @progressView = new ProgressView()  
       @headerView = new HeaderView()
       @footerView = new FooterView(model: @database)
+      @queryView = new QueryView(model: @database)
       Popover.init()
       @resizeBody()
       @bind()
 
 
   bind: ->
+    # Select the first collection on window load
+    $(window).on 'load', => 
+      @$collections.find("li a").first().trigger('click')
+
     @tableView.off('scroll').on 'scroll', => 
       Popover.hide() if Popover.isVisible()
 
@@ -43,6 +48,15 @@ class @App extends Backbone.Model
 
     @database.on 'error', (data) => @showError("Caught error from database: #{data.error}")
 
+    window.editor = CodeMirror.fromTextArea(document.getElementById("code"),
+      mode: 'text/x-sql'
+      indentWithTabs: true
+      smartIndent: true
+      lineNumbers: true
+      matchBrackets: true
+      autofocus: true
+    ) 
+
   
   resizeBody: ->
     @$main.css(height: $(window).height() - 104)
@@ -63,18 +77,25 @@ class @App extends Backbone.Model
     @set(context: 'content')
     @database.find collection, limit: @get('limit'), (err, data) => @database.set({data: data})
 
+  showQuery: (collection, query = "") ->
+    collection ?= @database.collection()
+    @set(context: 'query')
+    unless query is ""
+      @database.query collection, query, (error, data) => @database.set({data})
 
   refreshContext: ->
     collection = @database.collection()
     switch @get('context')
       when "schema"  then @showSchema(collection)
       when "content" then @showContent(collection)
+      when "query"   then @showQuery(collection)
 
 
   showContext: (collection) ->
     switch @get('context')
       when "schema"  then @showSchema(collection)
       when "content" then @showContent(collection)
+      when "query"   then @showQuery(collection)
 
   
   isEditable: ->
@@ -82,6 +103,7 @@ class @App extends Backbone.Model
     switch @get('context')
       when "schema"  then false
       when "content" then true
+      when "query"   then true
 
 
   showError: (error) ->
@@ -94,4 +116,3 @@ class @App extends Backbone.Model
 
 
 @app = new App()
-

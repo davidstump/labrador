@@ -7,6 +7,8 @@
 #= require 'backbone'
 #= require 'async'
 #= require 'keymaster'
+#= require 'codemirror'
+#= require 'codemirror_sql'
 #= require_tree .
 
 
